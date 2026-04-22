@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>방규딘듀 × JEJU — The Green Escape</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,400&family=DM+Sans:wght@300;400;500&family=Noto+Serif+KR:wght@700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0A0C09; --card: #131610; --card2: #1A1E15;
+  --border: #252920; --border2: #2E3328;
+  --matcha: #3D5A2B; --m2: #5A7A40; --m3: #8AAF68; --m4: #B8D49A;
+  --cream: #E2E0D6; --sub: #8A8E84; --mute: #4A4D44;
+  --amber: #C8935A; --red: #C85A5A;
+}
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
+html { scroll-behavior:smooth; }
+body { background:var(--bg); color:var(--cream); font-family:'DM Sans',sans-serif; font-weight:300; }
+
+/* GRAIN */
+body::after { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E"); pointer-events:none; z-index:999; }
+
+/* HEADER */
+header { padding: 40px 24px 32px; border-bottom:1px solid var(--border); position:relative; overflow:hidden; }
+header::before { content:''; position:absolute; inset:0; background: radial-gradient(ellipse 70% 100% at 90% 0%, rgba(61,90,43,0.2) 0%, transparent 70%); }
+.h-eye { font-size:9px; letter-spacing:5px; text-transform:uppercase; color:var(--m3); margin-bottom:12px; display:flex; align-items:center; gap:12px; position:relative; }
+.h-eye::before { content:''; width:28px; height:1px; background:var(--m3); }
+.h-title { font-family:'Cormorant Garamond',serif; font-size:clamp(36px,9vw,72px); font-weight:600; line-height:0.95; letter-spacing:-1.5px; position:relative; }
+.h-title .kr { font-family:'Noto Serif KR',serif; font-size:clamp(18px,4.5vw,36px); color:var(--m4); display:block; letter-spacing:2px; margin-bottom:4px; }
+.h-sub { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:16px; color:var(--sub); margin-top:16px; margin-bottom:20px; position:relative; }
+.date-row { display:flex; gap:6px; flex-wrap:wrap; position:relative; }
+.dp { border:1px solid var(--border2); color:var(--sub); padding:5px 12px; font-size:10px; letter-spacing:2px; text-transform:uppercase; border-radius:2px; }
+.dp.on { border-color:var(--m2); color:var(--m3); background:rgba(61,90,43,0.12); }
+
+/* QUICK STATS */
+.stats { display:grid; grid-template-columns:repeat(4,1fr); border-bottom:1px solid var(--border); }
+.stat-item { padding:12px 0; text-align:center; border-right:1px solid var(--border); }
+.stat-item:last-child { border-right:none; }
+.stat-n { font-family:'Cormorant Garamond',serif; font-size:26px; font-weight:600; color:var(--m3); line-height:1; }
+.stat-l { font-size:9px; letter-spacing:1.5px; text-transform:uppercase; color:var(--mute); margin-top:2px; }
+
+/* MAIN TABS */
+.main-tabs { position:sticky; top:0; z-index:100; background:rgba(10,12,9,0.95); backdrop-filter:blur(20px); border-bottom:1px solid var(--border); display:flex; overflow-x:auto; scrollbar-width:none; }
+.main-tabs::-webkit-scrollbar { display:none; }
+.mt { padding:14px 16px; border:none; background:none; font-family:'DM Sans',sans-serif; font-size:10px; font-weight:500; letter-spacing:2px; text-transform:uppercase; color:var(--mute); cursor:pointer; border-bottom:1.5px solid transparent; white-space:nowrap; margin-bottom:-1px; transition:all .2s; }
+.mt:hover { color:var(--m3); }
+.mt.on { color:var(--m4); border-bottom-color:var(--m2); }
+
+/* TAB PANELS */
+.panel { display:none; }
+.panel.on { display:block; }
+
+/* MAP PANEL */
+.map-panel { }
+.map-wrap { border-bottom:1px solid var(--border); }
+.map-wrap iframe { display:block; width:100%; height:60vh; border:none; }
+.map-bar { padding:10px 16px; display:flex; align-items:center; gap:10px; background:var(--card); }
+.map-dot { width:7px; height:7px; border-radius:50%; background:var(--m2); box-shadow:0 0 6px var(--m2); animation:pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+.map-label { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--m3); }
+.map-open { margin-left:auto; font-size:10px; letter-spacing:1px; text-transform:uppercase; color:var(--mute); text-decoration:none; border:1px solid var(--border2); padding:5px 10px; border-radius:2px; transition:all .2s; }
+.map-open:hover { border-color:var(--m2); color:var(--m3); }
+
+/* FILTER CHIPS */
+.chip-bar { padding:16px; display:flex; gap:6px; flex-wrap:wrap; border-bottom:1px solid var(--border); }
+.chip { padding:6px 13px; border:1px solid var(--border2); background:none; font-size:9px; font-weight:500; letter-spacing:2px; text-transform:uppercase; color:var(--mute); cursor:pointer; border-radius:2px; transition:all .2s; }
+.chip:hover { border-color:var(--m2); color:var(--m3); }
+.chip.on { background:var(--matcha); border-color:var(--matcha); color:var(--cream); }
+
+/* REGION HEADER */
+.rh { display:flex; align-items:center; gap:12px; padding:16px; border-bottom:1px solid var(--border); }
+.rh-num { font-family:'Cormorant Garamond',serif; font-size:28px; color:var(--border2); line-height:1; letter-spacing:-1px; }
+.rh-name { font-family:'Noto Serif KR',serif; font-size:14px; font-weight:700; }
+.rh-en { font-size:9px; letter-spacing:2px; text-transform:uppercase; color:var(--m3); margin-top:2px; }
+.rh-cnt { margin-left:auto; font-size:9px; letter-spacing:1px; text-transform:uppercase; color:var(--mute); border:1px solid var(--border); padding:3px 8px; border-radius:2px; }
+
+/* ACCORDION CARD */
+.card { border-bottom:1px solid var(--border); transition:background .15s; }
+.card:hover { background:var(--card2); }
+.card-head { padding:14px 16px; cursor:pointer; display:flex; align-items:center; gap:12px; user-select:none; }
+.card-icon { width:36px; height:36px; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
+.icon-food { background:rgba(200,147,90,0.12); }
+.icon-cafe { background:rgba(61,90,43,0.2); }
+.icon-bar  { background:rgba(90,90,200,0.12); }
+.icon-spot { background:rgba(61,90,43,0.15); }
+.icon-stay { background:rgba(200,180,90,0.12); }
+.icon-climb{ background:rgba(90,130,61,0.2); }
+.icon-temple{ background:rgba(180,120,90,0.12); }
+.card-main { flex:1; min-width:0; }
+.card-name { font-family:'Noto Serif KR',serif; font-size:14px; font-weight:700; color:var(--cream); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.card-quick { display:flex; gap:8px; margin-top:4px; flex-wrap:wrap; }
+.cq { font-size:10px; color:var(--sub); display:flex; align-items:center; gap:3px; }
+.badge { font-size:9px; font-weight:600; letter-spacing:1px; padding:2px 7px; border-radius:1px; }
+.b-food { background:rgba(200,147,90,0.15); color:var(--amber); border:1px solid rgba(200,147,90,0.25); }
+.b-cafe { background:rgba(61,90,43,0.2); color:var(--m3); border:1px solid rgba(61,90,43,0.3); }
+.b-bar  { background:rgba(100,154,200,0.12); color:#6A9AC8; border:1px solid rgba(100,154,200,0.2); }
+.b-spot { background:rgba(61,90,43,0.15); color:var(--m4); border:1px solid rgba(61,90,43,0.25); }
+.b-stay { background:rgba(200,192,90,0.12); color:#C8C05A; border:1px solid rgba(200,192,90,0.2); }
+.b-climb{ background:rgba(90,130,61,0.2); color:var(--m3); border:1px solid rgba(90,130,61,0.3); }
+.b-temple{background:rgba(180,120,90,0.12); color:#C8885A; border:1px solid rgba(180,120,90,0.2); }
+.b-alert{ background:rgba(200,90,90,0.12); color:var(--red); border:1px solid rgba(200,90,90,0.2); }
+.card-arr { font-size:14px; color:var(--mute); transition:transform .25s; flex-shrink:0; }
+.card.open .card-arr { transform:rotate(180deg); }
+
+/* ACCORDION BODY */
+.card-body { display:none; padding:0 16px 16px 64px; }
+.card.open .card-body { display:block; }
+.meta { display:flex; align-items:flex-start; gap:7px; font-size:12px; color:var(--sub); line-height:1.5; margin-bottom:5px; }
+.mi { font-size:12px; flex-shrink:0; margin-top:1px; }
+.price { color:var(--m3); font-weight:500; }
+.free { color:var(--m4); border:1px solid var(--matcha); padding:1px 6px; font-size:10px; border-radius:1px; letter-spacing:1px; }
+.note { background:rgba(61,90,43,0.1); border:1px solid rgba(61,90,43,0.25); border-radius:2px; padding:7px 10px; margin-top:8px; font-size:11px; color:var(--m3); }
+.warn { background:rgba(200,147,90,0.1); border:1px solid rgba(200,147,90,0.25); border-radius:2px; padding:7px 10px; margin-top:8px; font-size:11px; color:var(--amber); }
+.btns { display:flex; gap:6px; margin-top:12px; }
+.btn { display:inline-flex; align-items:center; gap:4px; padding:7px 12px; font-size:10px; font-weight:500; letter-spacing:1.5px; text-transform:uppercase; text-decoration:none; border-radius:2px; transition:all .2s; border:none; cursor:pointer; }
+.bn { background:#03C75A; color:#fff; } .bn:hover { background:#02A84C; }
+.bm { background:var(--card2); border:1px solid var(--border2); color:var(--sub); } .bm:hover { border-color:var(--m2); color:var(--m3); }
+.bw { background:rgba(61,90,43,0.2); border:1px solid var(--matcha); color:var(--m3); } .bw:hover { background:rgba(61,90,43,0.35); }
+
+/* HIDDEN */
+.card.hidden { display:none; }
+.region.hidden { display:none; }
+
+/* TIPS SECTION */
+.tips-grid { display:grid; grid-template-columns:1fr; }
+@media(min-width:640px) { .tips-grid { grid-template-columns:1fr 1fr; } }
+@media(min-width:900px) { .tips-grid { grid-template-columns:repeat(3,1fr); } }
+.tip-card { padding:20px; border-bottom:1px solid var(--border); border-right:1px solid var(--border); }
+.tip-eye { font-size:9px; letter-spacing:3px; text-transform:uppercase; color:var(--m3); margin-bottom:8px; }
+.tip-title { font-family:'Noto Serif KR',serif; font-size:14px; font-weight:700; color:var(--cream); margin-bottom:12px; }
+.tip-row { font-size:12px; color:var(--sub); line-height:1.6; margin-bottom:4px; }
+.tip-row .hl { color:var(--m3); font-weight:500; }
+.tip-row .warn-t { color:var(--amber); }
+.tip-hl { background:rgba(61,90,43,0.12); border:1px solid rgba(61,90,43,0.25); border-radius:2px; padding:7px 10px; margin-top:10px; font-size:11px; color:var(--m3); }
+.tip-warn { background:rgba(200,147,90,0.1); border:1px solid rgba(200,147,90,0.25); border-radius:2px; padding:7px 10px; margin-top:10px; font-size:11px; color:var(--amber); }
+
+/* DAY PLAN */
+.day-grid { display:grid; grid-template-columns:1fr; }
+@media(min-width:640px) { .day-grid { grid-template-columns:repeat(3,1fr); } }
+.day-card { padding:20px; border-bottom:1px solid var(--border); border-right:1px solid var(--border); }
+.day-eye { font-size:9px; letter-spacing:3px; text-transform:uppercase; color:var(--m3); margin-bottom:6px; }
+.day-title { font-family:'Noto Serif KR',serif; font-size:14px; font-weight:700; color:var(--cream); margin-bottom:14px; }
+.day-row { display:flex; gap:10px; margin-bottom:10px; font-size:12px; }
+.day-time { color:var(--m3); font-weight:600; flex-shrink:0; min-width:44px; font-size:11px; }
+.day-desc { color:var(--sub); line-height:1.5; }
+.day-sub { color:var(--mute); font-size:10px; display:block; margin-top:2px; }
+
+/* FOOTER */
+footer { padding:32px 24px; border-top:1px solid var(--border); display:flex; flex-wrap:wrap; gap:16px; align-items:center; justify-content:space-between; }
+.ft { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:18px; color:var(--m4); }
+.fs { font-size:11px; color:var(--mute); margin-top:3px; letter-spacing:1px; }
+.weather-box { background:rgba(61,90,43,0.08); border:1px solid rgba(61,90,43,0.2); padding:12px 16px; border-radius:2px; display:flex; align-items:center; gap:10px; font-size:12px; color:var(--sub); }
+
+/* SCROLL TOP */
+#st { position:fixed; bottom:24px; right:24px; width:38px; height:38px; border:1px solid var(--m2); background:var(--card); color:var(--m3); font-size:16px; cursor:pointer; display:none; align-items:center; justify-content:center; z-index:200; border-radius:2px; transition:all .2s; }
+#st:hover { background:var(--matcha); color:var(--cream); }
+#st.show { display:flex; }
+
+@media(max-width:480px) {
+  header { padding:28px 16px 24px; }
+  .chip-bar { padding:12px; }
+  .rh { padding:12px; }
+  .card-head { padding:12px; }
+  .card-body { padding:0 12px 14px 60px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="h-eye">Jeju Island · May 2025</div>
+  <h1 class="h-title">
+    <span class="kr">방규딘듀 ×</span>JEJU
+  </h1>
+  <p class="h-sub">— The Green Escape</p>
+  <div class="date-row">
+    <div class="dp on">May 07 · Wed</div>
+    <div class="dp on">May 08 · Thu</div>
+    <div class="dp on">May 09 · Fri</div>
+    <div class="dp">2N 3D</div>
+  </div>
+</header>
+
+<div class="stats">
+  <div class="stat-item"><div class="stat-n">56</div><div class="stat-l">Spots</div></div>
+  <div class="stat-item"><div class="stat-n">5</div><div class="stat-l">Zones</div></div>
+  <div class="stat-item"><div class="stat-n">4</div><div class="stat-l">Gyms</div></div>
+  <div class="stat-item"><div class="stat-n">3</div><div class="stat-l">Days</div></div>
+</div>
+
+<!-- MAIN TABS -->
+<div class="main-tabs" id="mainTabs">
+  <button class="mt on" onclick="switchPanel('places',this)">🗺 장소</button>
+  <button class="mt" onclick="switchPanel('map',this)">📍 지도</button>
+  <button class="mt" onclick="switchPanel('climb',this)">🧗 클라이밍</button>
+  <button class="mt" onclick="switchPanel('plan',this)">📅 동선</button>
+  <button class="mt" onclick="switchPanel('tips',this)">💡 꿀팁</button>
+</div>
+
+<!-- ══════════════ PANEL: PLACES ══════════════ -->
+<div class="panel on" id="p-places">
+  <div class="chip-bar">
+    <button class="chip on" onclick="filterCat('all',this)">전체</button>
+    <button class="chip" onclick="filterCat('food',this)">음식점</button>
+    <button class="chip" onclick="filterCat('cafe',this)">카페</button>
+    <button class="chip" onclick="filterCat('bar',this)">바</button>
+    <button class="chip" onclick="filterCat('spot',this)">관광</button>
+    <button class="chip" onclick="filterCat('temple',this)">사찰</button>
+    <button class="chip" onclick="filterCat('stay',this)">숙소</button>
+  </div>
+
+  <!-- 북쪽 -->
+  <div class="region" data-region="north" id="r-north">
+    <div class="rh"><div class="rh-num">01</div><div><div class="rh-name">제주시 / 조천 / 함덕</div><div class="rh-en">North Coast</div></div><div class="rh-cnt" id="c-north"></div></div>
+
+    <div class="card" data-cat="food">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon icon-food">🐟</div>
+        <div class="card-main">
+          <div class="card-name">용출횟집</div>
+          <div class="card-quick"><span class="badge b-food">횟집</span><span class="cq">🕐 12:00–21:00</span><span class="cq">📍 용두암</span></div>
+        </div><span class="card-arr">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="meta"><span class="mi">📍</span><span>제주시 서해안로 660 (용두암 근처)</span></div>
+        <div class="meta"><span class="mi">🐟</span><span>황돔·자연산 활어 전문 코스 요리</span></div>
+        <div class="warn">⚠️ 예약 추천 — 횟감 조기 소진 / 공항 근처라 첫날·마지막날 BEST</div>
+        <div class="btns"><a class="btn bm" href="https://map.naver.com/v5/search/용출횟집 제주" target="_blank">🗺 지도</a></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="food">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon icon-food">🐠</div>
+        <div class="card-main">
+          <div class="card-name">이춘옥 원조 고등어쌈밥</div>
+          <div class="card-quick"><span class="badge b-food">음식점</span><span class="cq">📍 제주시</span></div>
+        </div><span class="card-arr">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="meta"><span class="mi">🐟</span><span>고등어쌈밥 대표 맛집</span></div>
+        <div class="btns"><a class="btn bn" href="https://naver.me/IGJy31p2" target="_blank">네이버지도</a></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="food">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon icon-food">🍽️</div>
+        <div class="card-main">
+          <div class="card-name">국시트멍</div>
+          <div class="card-quick"><span class="badge b-food">국수</span><span class="cq">📍 공항 부근</span></div>
+        </div><span class="card-arr">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="meta"><span class="mi">🍜</span><span>제주식 국수 전문점</span></div>
+        <div class="btns"><a class="btn bm" href="https://map.naver.com/v5/search/국시트멍" target="_blank">🗺 지도</a></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="food">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon icon-food">🍵</div>
+        <div class="card-main">
+          <div class="card-name">오설록 말차 누들 바</div>
+          <div class="card-quick"><span class="badge b-food">음식점</span><span class="cq">📍 조천읍</span></div>
+        </div><span class="card-arr">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="meta"><span class="mi">🍵</span><span>말차 활용 이색 누들</span></div>
+        <div class="btns"><a class="btn bm" href="https://map.naver.com/v5/search/오설록 말차 누들바 조천" target="_blank">🗺 지도</a></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="food">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon icon-food">🍽️</div>
+        <div class="card-main">
+          <div class="card-name">미친부엌</div>
+          <div class="card-quick"><span class="badge b-food">음식점</span><span class="cq">📍 제주시</span></div>
+        </div><span class="card-arr">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="btns"><a class="btn bm" href="https://map.naver.com/v5/search/미친부엌 제주" target="_blank">🗺 지도</a></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="food">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon icon-food">🍜</div>
+        <div class="card-main">
+          <div class="card-name">엔폴리우드 함덕본점</div>
+          <div class="card-quick"><span class="badge b-food">음식점</span><span class="cq">📍 함덕</span></div>
+        </div><span class="card-arr">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="btns"><a class="btn bm" href="https://map.naver.com/v5/search/엔폴리우드 함덕" target="_blank">🗺 지도</a></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="spot">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon icon-spot">🌿</div>
+        <div class="card-main">
+          <div class="card-name">서우봉</div>
+          <div class="card-quick"><span class="badge b-spot">오름</span><span class="cq">무료</span><span class="cq">📍 함덕</span></div>
+        </div><span class="card-arr">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="meta"><span class="mi">🕐</span><span>상시 개방</span></div>
+        <div class="meta"><span class="mi">💰</span><span><span class="free">FREE</span></span></div>
+        <div class="meta"><span class="mi">🌅</span><span>함덕해수욕장 뒤편 오름 / 일몰 포인트</span></div>
+        <div class="btns"><a class="btn bm" href="https://map.naver.com/v5/search/서우봉" target="_blank">🗺 지도</a></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="spot">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon icon-spot">🌲</div>
+        <div class="card-main">
+          <div class="card-name">절물 자연 휴양림</div>
+          <div class="card-quick"><span class="badge b-spot">자연</span><span class="cq">🕐 09–18</span><span class="cq">💰 1,000원</span></div>
+        </div><span class="card-arr">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="meta"><span class="mi">📍</span><span>제주시 봉개동</span></div>
+        <div class="meta"><span class="mi">🌲</span><span>삼나무 숲길 자연 산책로</span></div>
+        <div class="btns"><a class="btn bm" href="https://map.naver.com/v5/search/절물자연휴양림" target="_blank">🗺 지도</a></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="temple">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon icon-temple">⛩️</div>
+        <div class="card-main">
+          <div class="card-name">관음사</div>
+          <div class="card-quick"><span class="badge b-temple">사찰</span><span class="cq">무료</span><span class="cq">📍 아라동</span></div>
+        </div><span class="card-arr">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="meta"><span class="mi">⛰️</span><span>한라산 관음사 탐방로 입구</span></div>
+        <div class="meta"><span class="mi">💰</span><span><span class="free">FREE</span></span></div>
+        <div class="btns"><a class="btn bm" href="https://map.naver.com/v5/search/관음사 제주" target="_blank">🗺 지도</a></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 동쪽 -->
+  <div class="region" data-region="east" id="r-east">
+    <div class="rh"><div class="rh-num">02</div><div><div class="rh-name">세화 / 구좌 / 성산</div><div class="rh-en">East Coast</div></div><div class="rh-cnt" id="c-east"></div></div>
+
+    <div class="card" data-cat="food">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon icon-spot">🌊</div>
+        <div class="card-main">
+          <div class="card-name">시흥해녀의 집</div>
+          <div class="card-quick"><span class="badge b-spot">해산물</span><span class="cq">🕐 07–20:30</span><span class="cq">📍 성산읍</span></div>
+        </div><span class="card-arr">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="meta"><span class="mi">📍</span><span>서귀포시 성산읍 시흥하동로 114</span></div>
+        <div class="meta"><span class="mi">🥣</span><span>해녀 직영 — 조개죽 강추!</span></div>
+        <div class="note">💡 성산일출봉 인근 / 아침식사 BEST</div>
+        <div class="btns"><a class="btn bm" href="https://map.naver.com/v5/search/시흥해녀의집 성산" target="_blank">🗺 지도</a></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="cafe">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon icon-cafe">☕</div>
+        <div class="card-main">
+          <div class="card-name">픽업카페</div>
+          <div class="card-quick"><span class="badge b-cafe">카페</span><span class="cq">📍 세화리</span></div>
+        </div><span class="card-arr">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="meta"><span class="mi">🌊</span><span>세화 바다뷰 감성 카페</span></div>
+        <div class="btns"><a class="btn bm" href="https://map.naver.com/v5/search/픽업카페 세화" target="_blank">🗺 지도</a></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="cafe">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon icon-cafe">🏡</div>
+        <div class="card-main">
+          <div class="card-name">시인의집</div>
+          <div class="card-quick"><span class="badge b-cafe">카페</span><span class="cq">📍 구좌읍</span></div>
+        </div><span class="card-arr">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="btns"><a class="btn bm" href="https://map.naver.com/v5/search/시인의집 구좌" target="_blank">🗺 지도</a></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="food">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon icon-food">🧀</div>
+        <div class="card-main">
+          <div class="card-name">달치즈 구좌세화점</div>
+          <div class="card-quick"><span class="badge b-food">디저트</span><span class="cq">📍 세화리</span></div>
+        </div><span class="card-arr">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="meta"><span class="mi">🧀</span><span>치즈 디저트 전문점</span></div>
+        <div class="btns"><a class="btn bn" href="https://naver.me/502MDPDe" target="_blank">네이버지도</a></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="food">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon icon-food">🍜</div>
+        <div class="card-main">
+          <div class="card-name">노라바라면</div>
+          <div class="card-quick"><span class="badge b-food">라멘</span><span class="cq">📍 동쪽</span></div>
+        </div><span class="card-arr">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="btns"><a class="btn bn" href="https://naver.me/FIfsKrin" target="_blank">네이버지도</a></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="food">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon icon-food">🍽️</div>
+        <div class="card-main">
+          <div class="card-name">아줄레주</div>
+          <div class="card-quick"><span class="badge b-food">음식점</span><span class="cq">📍 동쪽</span></div>
+        </div><span class="card-arr">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="btns"><a class="btn bn" href="https://naver.me/FUhbdOYN" target="_blank">네이버지도</a></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 서귀포/남쪽 -->
+  <div class="region" data-region="south" id="r-south">
+    <div class="rh"><div class="rh-num">03</div><div><div class="rh-name">서귀포 / 중문 / 안덕</div><div class="rh-en">Seogwipo · South</div></div><div class="rh-cnt" id="c-south"></div></div>
+
+    <div class="card" data-cat="food">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon icon-food">🥩</div>
+        <div class="card-main">
+          <div class="card-name">연돈</div>
+          <div class="card-quick"><span class="badge b-food">돈까스</span><span class="badge b-alert">오픈런</span><span class="cq">📍 서귀포</span></div>
+        </div><span class="card-arr">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="meta"><span class="mi">🥩</span><span>흑돼지 돈까스 전국 1티어</span></div>
+        <div class="warn">⚡ 오픈 30분 전 대기 필수</div>
+        <div class="btns"><a class="btn bn" href="https://naver.me/xnhZpQe7" target="_blank">네이버지도</a></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="food">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon icon-spot">🐟</div>
+        <div class="card-main">
+          <div class="card-name">미영이네</div>
+          <div class="card-quick"><span class="badge b-spot">고등어회</span><span class="cq">🕐 11:30–22:00</span><span class="cq">📍 모슬포항</span></div>
+        </div><span class="card-arr">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="meta"><span class="mi">📍</span><span>서귀포시 대정읍 하모항구로 42</span></div>
+        <div class="meta"><span class="mi">🕐</span><span>11:30–22:00 (LO 20:30) · 수요일 휴무</span></div>
+        <div class="meta"><span class="mi">🐟</span><span>고등어회 단일 메뉴 전국 1티어</span></div>
+        <div class="note">💡 4–5시 방문 시 웨이팅 없음</div>
+        <div class="btns"><a class="btn bm" href="https://map.naver.com/v5/search/미영이네 모슬포" target="_blank">🗺 지도</a></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="food">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon icon-food">🌮</div>
+        <div class="card-main">
+          <div class="card-name">비틀스타코</div>
+          <div class="card-quick"><span class="badge b-food">타코</span><span class="cq">📍 서귀포</span></div>
+        </div><span class="card-arr">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="btns"><a class="btn bm" href="https://map.naver.com/v5/search/비틀스타코 서귀포" target="_blank">🗺 지도</a></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="food">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon icon-food">🛒</div>
+        <div class="card-main">
+          <div class="card-name">서귀포 올레시장</div>
+          <div class="card-quick"><span class="badge b-food">시장</span><span class="cq">🕐 07–21</span><span class="cq">📍 서귀포</span></div>
+        </div><span class="card-arr">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="meta"><span class="mi">🍊</span><span>감귤·흑돼지·해산물 먹거리 천국</span></div>
+        <div class="btns"><a class="btn bn" href="https://naver.me/GMmLUARv" target="_blank">네이버지도</a></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="food">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon icon-food">🍜</div>
+        <div class="card-main">
+          <div class="card-name">서귀포 국수마을</div>
+          <div class="card-quick"><span class="badge b-food">국수</span><span class="cq">📍 서귀포</span></div>
+        </div><span class="card-arr">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="btns"><a class="btn bm" href="https://map.naver.com/v5/search/서귀포 국수마을" target="_blank">🗺 지도</a></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="spot">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon icon-spot">🖼️</div>
+        <div class="card-main">
+          <div class="card-name">본태박물관</div>
+          <div class="card-quick"><span class="badge b-spot">미술관</span><span class="cq">🕐 10–18</span><span class="cq">💰 30,000원</span></div>
+        </div><span class="card-arr">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="meta"><span class="mi">📍</span><span>서귀포시 안덕면 산록남로 762번길 69</span></div>
+        <div class="meta"><span class="mi">🏛️</span><span>안도 다다오 설계 · 쿠사마 야요이 · 백남준 · 피카소</span></div>
+        <div class="meta"><span class="mi">🕐</span><span>10:00–18:00 연중무휴</span></div>
+        <div class="btns"><a class="btn bw" href="https://bontemuseum.com" target="_blank">홈페이지</a><a class="btn bm" href="https://map.naver.com/v5/search/본태박물관" target="_blank">🗺 지도</a></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="spot">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon icon-spot">🖼️</div>
+        <div class="card-main">
+          <div class="card-name">유동룡미술관 (이타미 준)</div>
+          <div class="card-quick"><span class="badge b-spot">미술관</span><span class="cq">🕐 10–18</span><span class="cq">📍 안덕면</span></div>
+        </div><span class="card-arr">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="meta"><span class="mi">🕐</span><span>10:00–18:00 (17:00 입장마감) · 월요일 휴관</span></div>
+        <div class="btns"><a class="btn bm" href="https://map.naver.com/v5/search/유동룡미술관" target="_blank">🗺 지도</a></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="spot">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon icon-spot">🌊</div>
+        <div class="card-main">
+          <div class="card-name">용머리해안</div>
+          <div class="card-quick"><span class="badge b-spot">자연</span><span class="badge b-alert">날씨확인</span><span class="cq">💰 2,000원</span></div>
+        </div><span class="card-arr">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="meta"><span class="mi">📍</span><span>서귀포시 안덕면 (산방산 인근)</span></div>
+        <div class="meta"><span class="mi">🕐</span><span>08:00–18:00 (5–9월)</span></div>
+        <div class="warn">⚠️ 파도 높으면 입장 통제 — 당일 확인 필수</div>
+        <div class="btns"><a class="btn bm" href="https://map.naver.com/v5/search/용머리해안" target="_blank">🗺 지도</a></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="spot">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon icon-spot">🦫</div>
+        <div class="card-main">
+          <div class="card-name">카피바라 동물원</div>
+          <div class="card-quick"><span class="badge b-spot">체험</span><span class="cq">📍 서귀포</span></div>
+        </div><span class="card-arr">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="meta"><span class="mi">🦫</span><span>카피바라 먹이주기 체험</span></div>
+        <div class="btns"><a class="btn bn" href="https://naver.me/Fpxl1THg" target="_blank">네이버지도</a></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="spot">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon icon-spot">🏊</div>
+        <div class="card-main">
+          <div class="card-name">비체올린</div>
+          <div class="card-quick"><span class="badge b-spot">리조트</span><span class="cq">📍 중문</span></div>
+        </div><span class="card-arr">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="meta"><span class="mi">🏊</span><span>야외 수영장 리조트</span></div>
+        <div class="btns"><a class="btn bm" href="https://map.naver.com/v5/search/비체올린 제주" target="_blank">🗺 지도</a></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="spot">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon icon-spot">🌊</div>
+        <div class="card-main">
+          <div class="card-name">보목동 해녀의 집</div>
+          <div class="card-quick"><span class="badge b-spot">자연</span><span class="cq">📍 보목동</span></div>
+        </div><span class="card-arr">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="meta"><span class="mi">🤿</span><span>해녀 물질 관람 · 신선한 해산물</span></div>
+        <div class="btns"><a class="btn bm" href="https://map.naver.com/v5/search/보목동 해녀의집" target="_blank">🗺 지도</a></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="temple">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon icon-temple">⛩️</div>
+        <div class="card-main">
+          <div class="card-name">산방굴사</div>
+          <div class="card-quick"><span class="badge b-temple">사찰</span><span class="cq">🕐 09–18</span><span class="cq">💰 500원</span></div>
+        </div><span class="card-arr">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="meta"><span class="mi">📍</span><span>서귀포시 안덕면 산방산</span></div>
+        <div class="meta"><span class="mi">🌋</span><span>산방산 중턱 자연 동굴 사찰 / 용머리해안과 함께 추천</span></div>
+        <div class="btns"><a class="btn bm" href="https://map.naver.com/v5/search/산방굴사" target="_blank">🗺 지도</a></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="temple">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon icon-temple">⛩️</div>
+        <div class="card-main">
+          <div class="card-name">효명사 / 동암사</div>
+          <div class="card-quick"><span class="badge b-temple">사찰</span><span class="cq">무료</span><span class="cq">📍 서귀포</span></div>
+        </div><span class="card-arr">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="meta"><span class="mi">💰</span><span><span class="free">FREE</span></span></div>
+        <div class="btns"><a class="btn bm" href="https://map.naver.com/v5/search/효명사 제주" target="_blank">효명사</a><a class="btn bm" href="https://map.naver.com/v5/search/동암사 제주" target="_blank">동암사</a></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 서쪽/애월 -->
+  <div class="region" data-region="west" id="r-west">
+    <div class="rh"><div class="rh-num">04</div><div><div class="rh-name">애월 / 한림 / 협재</div><div class="rh-en">Aewol · West</div></div><div class="rh-cnt" id="c-west"></div></div>
+
+    <div class="card" data-cat="food">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon icon-food">🐖</div>
+        <div class="card-main">
+          <div class="card-name">봉성식당</div>
+          <div class="card-quick"><span class="badge b-food">흑돼지</span><span class="cq">🕐 11–22</span><span class="cq">📍 애월읍</span></div>
+        </div><span class="card-arr">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="meta"><span class="mi">📍</span><span>제주시 애월읍 봉성로 66</span></div>
+        <div class="meta"><span class="mi">🕐</span><span>11:00–22:00 · 브레이크 15:00–16:30 · 2·4주 화요일 휴무 · LO 21:30</span></div>
+        <div class="meta"><span class="mi">💰</span><span>흑돼지 600g <span class="price">60,000원</span> / 백돼지 <span class="price">40,000원</span> / 열무국수 6,000원</span></div>
+        <div class="note">💡 김나영·손흥민 다녀간 도민 찐맛집 / 흑돼지+고사리+묵은지 시그니처</div>
+        <div class="btns"><a class="btn bm" href="https://map.naver.com/v5/search/봉성식당 애월" target="_blank">🗺 지도</a></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="food">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon icon-food">🥐</div>
+        <div class="card-main">
+          <div class="card-name">오드랑 베이커리</div>
+          <div class="card-quick"><span class="badge b-food">베이커리</span><span class="cq">📍 애월읍</span></div>
+        </div><span class="card-arr">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="btns"><a class="btn bn" href="https://naver.me/IMyGV1cw" target="_blank">네이버지도</a></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="food">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon icon-food">🐖</div>
+        <div class="card-main">
+          <div class="card-name">흑섬 고기집</div>
+          <div class="card-quick"><span class="badge b-food">흑돼지</span><span class="cq">📍 애월</span></div>
+        </div><span class="card-arr">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="btns"><a class="btn bn" href="https://naver.me/xZVpwGrB" target="_blank">네이버지도</a></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="food">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon icon-food">🍽️</div>
+        <div class="card-main">
+          <div class="card-name">애월하미</div>
+          <div class="card-quick"><span class="badge b-food">음식점</span><span class="cq">📍 애월읍</span></div>
+        </div><span class="card-arr">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="btns"><a class="btn bn" href="https://naver.me/FFGRc7tw" target="_blank">네이버지도</a></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="cafe">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon icon-cafe">🍵</div>
+        <div class="card-main">
+          <div class="card-name">오설록 티스톤</div>
+          <div class="card-quick"><span class="badge b-cafe">티카페</span><span class="cq">🕐 09–18</span><span class="cq">📍 서광리</span></div>
+        </div><span class="card-arr">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="meta"><span class="mi">🍵</span><span>오설록 티뮤지엄 인근 프리미엄 티 공간</span></div>
+        <div class="btns"><a class="btn bm" href="https://map.naver.com/v5/search/오설록 티스톤" target="_blank">🗺 지도</a></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="cafe">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon icon-cafe">☕</div>
+        <div class="card-main">
+          <div class="card-name">차만제주 본점</div>
+          <div class="card-quick"><span class="badge b-cafe">카페</span><span class="cq">📍 서쪽</span></div>
+        </div><span class="card-arr">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="btns"><a class="btn bm" href="https://map.naver.com/v5/search/차만제주 본점" target="_blank">🗺 지도</a></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="spot">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon icon-spot">🏖️</div>
+        <div class="card-main">
+          <div class="card-name">금능해변</div>
+          <div class="card-quick"><span class="badge b-spot">해변</span><span class="cq">무료</span><span class="cq">📍 한림읍</span></div>
+        </div><span class="card-arr">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="meta"><span class="mi">💰</span><span><span class="free">FREE</span></span></div>
+        <div class="meta"><span class="mi">🌊</span><span>에메랄드빛 얕은 해변 / 협재 바로 옆</span></div>
+        <div class="btns"><a class="btn bm" href="https://map.naver.com/v5/search/금능해변" target="_blank">🗺 지도</a></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="spot">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon icon-spot">🌿</div>
+        <div class="card-main">
+          <div class="card-name">금오름</div>
+          <div class="card-quick"><span class="badge b-spot">오름</span><span class="cq">무료</span><span class="cq">📍 한림읍</span></div>
+        </div><span class="card-arr">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="meta"><span class="mi">💰</span><span><span class="free">FREE</span></span></div>
+        <div class="meta"><span class="mi">🌅</span><span>한라산·바다 360° 파노라마 / 일몰 뷰 최고</span></div>
+        <div class="btns"><a class="btn bm" href="https://map.naver.com/v5/search/금오름" target="_blank">🗺 지도</a></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="spot">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon icon-spot">💧</div>
+        <div class="card-main">
+          <div class="card-name">제주도립 김창열미술관</div>
+          <div class="card-quick"><span class="badge b-spot">미술관</span><span class="cq">🕐 09–18</span><span class="cq">💰 2,000원</span></div>
+        </div><span class="card-arr">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="meta"><span class="mi">📍</span><span>제주시 한림읍 용금로 883-5</span></div>
+        <div class="meta"><span class="mi">🕐</span><span>09:00–18:00 · 월요일 휴관</span></div>
+        <div class="meta"><span class="mi">💧</span><span>'물방울 화가' 김창열 작품 전시</span></div>
+        <div class="btns"><a class="btn bw" href="https://kimtschang-yeul.jeju.go.kr" target="_blank">홈페이지</a><a class="btn bm" href="https://map.naver.com/v5/search/김창열미술관" target="_blank">🗺 지도</a></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="spot">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon icon-spot">🍊</div>
+        <div class="card-main">
+          <div class="card-name">귤메달하우스</div>
+          <div class="card-quick"><span class="badge b-spot">체험</span><span class="cq">📍 서쪽</span></div>
+        </div><span class="card-arr">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="meta"><span class="mi">🍊</span><span>감귤 체험</span></div>
+        <div class="btns"><a class="btn bn" href="https://naver.me/xOxHBmqB" target="_blank">네이버지도</a></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 카페&바 -->
+  <div class="region" data-region="cafebar" id="r-cafebar">
+    <div class="rh"><div class="rh-num">05</div><div><div class="rh-name">카페 & 바</div><div class="rh-en">Cafés · Nightlife</div></div><div class="rh-cnt" id="c-cafebar"></div></div>
+
+    <div class="card" data-cat="cafe">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon icon-cafe">☕</div>
+        <div class="card-main"><div class="card-name">흘</div><div class="card-quick"><span class="badge b-cafe">카페</span><span class="cq">📍 지역확인</span></div></div><span class="card-arr">▾</span>
+      </div>
+      <div class="card-body"><div class="btns"><a class="btn bm" href="https://map.naver.com/v5/search/흘 카페 제주" target="_blank">🗺 지도</a></div></div>
+    </div>
+
+    <div class="card" data-cat="cafe">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon icon-cafe">☕</div>
+        <div class="card-main"><div class="card-name">우연못</div><div class="card-quick"><span class="badge b-cafe">카페</span><span class="cq">📍 지역확인</span></div></div><span class="card-arr">▾</span>
+      </div>
+      <div class="card-body"><div class="btns"><a class="btn bm" href="https://map.naver.com/v5/search/우연못 카페 제주" target="_blank">🗺 지도</a></div></div>
+    </div>
+
+    <div class="card" data-cat="cafe">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon icon-cafe">☕</div>
+        <div class="card-main"><div class="card-name">호월</div><div class="card-quick"><span class="badge b-cafe">카페</span><span class="cq">📍 지역확인</span></div></div><span class="card-arr">▾</span>
+      </div>
+      <div class="card-body"><div class="btns"><a class="btn bm" href="https://map.naver.com/v5/search/호월 카페 제주" target="_blank">🗺 지도</a></div></div>
+    </div>
+
+    <div class="card" data-cat="cafe">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon icon-cafe">🍵</div>
+        <div class="card-main"><div class="card-name">취다선 티앤메디테이션</div><div class="card-quick"><span class="badge b-cafe">티살롱</span><span class="cq">📍 지역확인</span></div></div><span class="card-arr">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="meta"><span class="mi">🍵</span><span>차와 명상을 결합한 티 공간</span></div>
+        <div class="btns"><a class="btn bm" href="https://map.naver.com/v5/search/취다선 제주" target="_blank">🗺 지도</a></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="cafe">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon icon-cafe">☕</div>
+        <div class="card-main"><div class="card-name">산노루카페</div><div class="card-quick"><span class="badge b-cafe">카페</span><span class="cq">📍 제주</span></div></div><span class="card-arr">▾</span>
+      </div>
+      <div class="card-body"><div class="btns"><a class="btn bn" href="https://naver.me/5Jpy3NuX" target="_blank">네이버지도</a></div></div>
+    </div>
+
+    <div class="card" data-cat="bar">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon icon-bar">🍸</div>
+        <div class="card-main"><div class="card-name">더스톤</div><div class="card-quick"><span class="badge b-bar">바</span><span class="cq">📍 지역확인</span></div></div><span class="card-arr">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="meta"><span class="mi">🌙</span><span>제주 나이트라이프</span></div>
+        <div class="btns"><a class="btn bm" href="https://map.naver.com/v5/search/더스톤 바 제주" target="_blank">🗺 지도</a></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="food">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon icon-food">🐷</div>
+        <div class="card-main"><div class="card-name">제주두 중정문</div><div class="card-quick"><span class="badge b-food">제육</span><span class="cq">📍 표선</span></div></div><span class="card-arr">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="meta"><span class="mi">🐷</span><span>제육 맛집 (친구 추천)</span></div>
+        <div class="btns"><a class="btn bm" href="https://map.naver.com/v5/search/제주두중정문 표선" target="_blank">🗺 지도</a></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 한라산 -->
+  <div class="region" data-region="mountain" id="r-mountain">
+    <div class="rh"><div class="rh-num">06</div><div><div class="rh-name">한라산</div><div class="rh-en">Hallasan · 1,947m</div></div><div class="rh-cnt" id="c-mountain"></div></div>
+
+    <div class="card" data-cat="spot">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon icon-spot">⛰️</div>
+        <div class="card-main">
+          <div class="card-name">한라산 국립공원</div>
+          <div class="card-quick"><span class="badge b-spot">트레킹</span><span class="badge b-alert">사전예약</span><span class="cq">무료</span></div>
+        </div><span class="card-arr">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="meta"><span class="mi">🕐</span><span>입산 05:30~ (5월 기준)</span></div>
+        <div class="meta"><span class="mi">💰</span><span><span class="free">FREE</span></span></div>
+        <div class="meta"><span class="mi">🗺️</span><span>성판악 왕복 19.2km · 영실 왕복 5.8km · 관음사 왕복 17km</span></div>
+        <div class="warn">📋 정상(백록담) 코스 — 국립공원공단 앱 사전예약 필수</div>
+        <div class="btns"><a class="btn bw" href="https://www.knps.or.kr" target="_blank">예약하기</a><a class="btn bm" href="https://map.naver.com/v5/search/한라산국립공원" target="_blank">🗺 지도</a></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 숙소 -->
+  <div class="region" data-region="stay" id="r-stay">
+    <div class="rh"><div class="rh-num">07</div><div><div class="rh-name">숙소 후보</div><div class="rh-en">Accommodation · TBD</div></div></div>
+
+    <div class="card" data-cat="stay">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon icon-stay">🏨</div>
+        <div class="card-main"><div class="card-name">에코랜드 호텔</div><div class="card-quick"><span class="badge b-stay">호텔</span><span class="cq">📍 조천읍 (북쪽)</span></div></div><span class="card-arr">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="meta"><span class="mi">🌿</span><span>에코랜드 테마파크 인접 / 공항 접근 좋음</span></div>
+        <div class="btns"><a class="btn bm" href="https://map.naver.com/v5/search/에코랜드 호텔" target="_blank">🗺 지도</a></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="stay">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon icon-stay">🏠</div>
+        <div class="card-main"><div class="card-name">더들집 오름</div><div class="card-quick"><span class="badge b-stay">독채</span><span class="cq">오름 전망</span></div></div><span class="card-arr">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="btns"><a class="btn bm" href="https://map.naver.com/v5/search/더들집오름 제주" target="_blank">🗺 지도</a></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="stay">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon icon-stay">🏠</div>
+        <div class="card-main"><div class="card-name">서귀포시의 집</div><div class="card-quick"><span class="badge b-stay">독채</span><span class="cq">📍 서귀포 (남쪽)</span></div></div><span class="card-arr">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="btns"><a class="btn bm" href="https://map.naver.com/v5/search/서귀포시의집 숙소" target="_blank">🗺 지도</a></div>
+      </div>
+    </div>
+
+    <div class="card" data-cat="stay">
+      <div class="card-head" onclick="toggle(this)">
+        <div class="card-icon icon-stay">🏨</div>
+        <div class="card-main"><div class="card-name">다인 오세아노 / 골든스테이지 / 노블피아 / 피노호텔</div><div class="card-quick"><span class="badge b-stay">호텔</span></div></div><span class="card-arr">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="btns">
+          <a class="btn bm" href="https://map.naver.com/v5/search/다인오세아노 제주" target="_blank">다인</a>
+          <a class="btn bm" href="https://map.naver.com/v5/search/골든스테이지 제주" target="_blank">골든</a>
+          <a class="btn bm" href="https://map.naver.com/v5/search/노블피아호텔 제주" target="_blank">노블</a>
+          <a class="btn bm" href="https://map.naver.com/v5/search/피노호텔 제주" target="_blank">피노</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ PANEL: MAP ══════════════ -->
+<div class="panel" id="p-map">
+  <div class="map-wrap">
+    <iframe src="https://www.google.com/maps/d/embed?mid=14ahjHFDEnyJe2R5SNfLWhbugl7sUqvU" loading="lazy"></iframe>
+  </div>
+  <div class="map-bar">
+    <div class="map-dot"></div>
+    <div class="map-label">Live Map · Google My Maps</div>
+    <a class="map-open" href="https://www.google.com/maps/d/edit?mid=14ahjHFDEnyJe2R5SNfLWhbugl7sUqvU&usp=sharing" target="_blank">크게보기 ↗</a>
+  </div>
+</div>
+
+<!-- ══════════════ PANEL: CLIMBING ══════════════ -->
+<div class="panel" id="p-climb">
+  <div style="padding:16px;border-bottom:1px solid var(--border);font-size:11px;color:var(--sub);">제주 클라이밍장 · Jeju Climbing Gyms</div>
+
+  <div class="card" style="border-bottom:1px solid var(--border);">
+    <div class="card-head" onclick="toggle(this)">
+      <div class="card-icon icon-climb">🧗</div>
+      <div class="card-main">
+        <div class="card-name">픽스볼더 (Fix Boulder)</div>
+        <div class="card-quick"><span class="badge b-climb">볼더링</span><span class="cq">🕐 11–22</span><span class="cq">📍 연동</span></div>
+      </div><span class="card-arr">▾</span>
+    </div>
+    <div class="card-body">
+      <div class="meta"><span class="mi">📍</span><span>제주시 삼무로 41, 메종프라임연동 B1</span></div>
+      <div class="meta"><span class="mi">🕐</span><span>11:00 – 22:00</span></div>
+      <div class="meta"><span class="mi">🧗</span><span>실내 볼더링 전문짐 · 2021년 오픈 · 선수반 운영</span></div>
+      <div class="note">💡 공항에서 버스 20분 — 첫날·마지막날 들르기 BEST</div>
+      <div class="btns">
+        <a class="btn bw" href="https://www.instagram.com/fix_boulder/" target="_blank">인스타그램</a>
+        <a class="btn bm" href="https://map.naver.com/v5/search/픽스볼더 제주 연동" target="_blank">🗺 지도</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="border-bottom:1px solid var(--border);">
+    <div class="card-head" onclick="toggle(this)">
+      <div class="card-icon icon-climb">🧗</div>
+      <div class="card-main">
+        <div class="card-name">더패스클라이밍짐 (삼도점)</div>
+        <div class="card-quick"><span class="badge b-climb">볼더링</span><span class="cq">📍 삼도동</span></div>
+      </div><span class="card-arr">▾</span>
+    </div>
+    <div class="card-body">
+      <div class="meta"><span class="mi">📍</span><span>제주시 삼도동 (제주시청 근처)</span></div>
+      <div class="meta"><span class="mi">🧗</span><span>실내 볼더링 전문짐</span></div>
+      <div class="note">💡 방문 전 @the_path_climbing_in_jeju 확인</div>
+      <div class="btns">
+        <a class="btn bw" href="https://www.instagram.com/the_path_climbing_in_jeju/" target="_blank">인스타그램</a>
+        <a class="btn bm" href="https://map.naver.com/v5/search/더패스클라이밍 제주" target="_blank">🗺 지도</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="border-bottom:1px solid var(--border);">
+    <div class="card-head" onclick="toggle(this)">
+      <div class="card-icon icon-climb">🧗</div>
+      <div class="card-main">
+        <div class="card-name">제주 무브존</div>
+        <div class="card-quick"><span class="badge b-climb">클라이밍</span><span class="cq">📍 제주시</span></div>
+      </div><span class="card-arr">▾</span>
+    </div>
+    <div class="card-body">
+      <div class="meta"><span class="mi">🧗</span><span>실내 클라이밍짐</span></div>
+      <div class="btns"><a class="btn bm" href="https://map.naver.com/v5/search/제주 무브존 클라이밍" target="_blank">🗺 지도</a></div>
+    </div>
+  </div>
+
+  <div class="card" style="border-bottom:1px solid var(--border);">
+    <div class="card-head" onclick="toggle(this)">
+      <div class="card-icon icon-climb">🏔️</div>
+      <div class="card-main">
+        <div class="card-name">액티브파크 클립앤클라임</div>
+        <div class="card-quick"><span class="badge b-climb">클라이밍</span><span class="badge b-alert">예약제</span><span class="cq">📍 한림읍</span></div>
+      </div><span class="card-arr">▾</span>
+    </div>
+    <div class="card-body">
+      <div class="meta"><span class="mi">📍</span><span>제주시 한림읍 금능남로 76 (협재·금능 인근)</span></div>
+      <div class="meta"><span class="mi">🕐</span><span>10:00 – 18:00 (매시 정각 회차 운영)</span></div>
+      <div class="meta"><span class="mi">🧗</span><span>실내 클라이밍 테마파크 · 만6세–성인</span></div>
+      <div class="warn">📋 예약제 운영 — 사전 예약 필수</div>
+      <div class="btns">
+        <a class="btn bw" href="http://activepark.co.kr" target="_blank">홈페이지</a>
+        <a class="btn bm" href="https://map.naver.com/v5/search/액티브파크 한림 클라이밍" target="_blank">🗺 지도</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ PANEL: PLAN ══════════════ -->
+<div class="panel" id="p-plan">
+  <div class="day-grid" style="border-bottom:1px solid var(--border);">
+    <div class="day-card">
+      <div class="day-eye">Day 01 · May 7 Wed</div>
+      <div class="day-title">✈ 도착 → 서쪽 루트</div>
+      <div class="day-row"><div class="day-time">오전</div><div class="day-desc">제주 도착 · 렌트카 픽업<span class="day-sub">용출횟집 or 픽스볼더 들르기 (공항 20분)</span></div></div>
+      <div class="day-row"><div class="day-time">오후</div><div class="day-desc">애월 → 금능해변 → 협재<span class="day-sub">봉성식당 / 흑섬 고기집 저녁</span></div></div>
+      <div class="day-row"><div class="day-time">저녁</div><div class="day-desc">서쪽 숙소 체크인<span class="day-sub">여유 있으면 금오름 일몰 GO</span></div></div>
+    </div>
+    <div class="day-card">
+      <div class="day-eye">Day 02 · May 8 Thu</div>
+      <div class="day-title">🏝 남쪽 집중 탐방</div>
+      <div class="day-row"><div class="day-time">이른아침</div><div class="day-desc">연돈 오픈런 (서귀포)<span class="day-sub">⚡ 오픈 30분 전 대기 필수</span></div></div>
+      <div class="day-row"><div class="day-time">오후</div><div class="day-desc">본태박물관 → 용머리해안 → 산방굴사<span class="day-sub">유동룡미술관 월요일이면 SKIP</span></div></div>
+      <div class="day-row"><div class="day-time">저녁</div><div class="day-desc">미영이네 고등어회 (모슬포항)<span class="day-sub">4–5시 방문 시 웨이팅 없음 ✨</span></div></div>
+    </div>
+    <div class="day-card">
+      <div class="day-eye">Day 03 · May 9 Fri</div>
+      <div class="day-title">🌊 동쪽 → 귀가</div>
+      <div class="day-row"><div class="day-time">이른아침</div><div class="day-desc">시흥해녀의 집 조개죽 (성산)<span class="day-sub">7시 오픈 — 최고의 아침식사</span></div></div>
+      <div class="day-row"><div class="day-time">오전</div><div class="day-desc">세화 카페 → 구좌 드라이브<span class="day-sub">픽업카페 / 달치즈 세화점</span></div></div>
+      <div class="day-row"><div class="day-time">귀가전</div><div class="day-desc">서귀포 올레시장 기념품<span class="day-sub">픽스볼더 들렀다 공항 GO 🧗</span></div></div>
+    </div>
+  </div>
+  <div style="padding:16px;border-bottom:1px solid var(--border);">
+    <div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--m3);margin-bottom:12px;">숙소 가이드 · Accommodation</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);">
+      <div style="background:var(--card);padding:14px 16px;">
+        <div style="font-size:12px;font-weight:600;color:var(--m3);margin-bottom:6px;">🌿 북쪽 (제주시·조천)</div>
+        <div style="font-size:11px;color:var(--sub);line-height:1.6;">공항 접근 최고 / 첫날·마지막날 유리<br><span style="color:var(--mute);">→ 에코랜드 호텔, 노블피아</span></div>
+      </div>
+      <div style="background:var(--card);padding:14px 16px;">
+        <div style="font-size:12px;font-weight:600;color:var(--m3);margin-bottom:6px;">🍊 서쪽 (애월·한림)</div>
+        <div style="font-size:11px;color:var(--sub);line-height:1.6;">감성 숙소 많음 / 협재·금능 도보<br><span style="color:var(--mute);">→ 더들집 오름 추천</span></div>
+      </div>
+      <div style="background:var(--card);padding:14px 16px;">
+        <div style="font-size:12px;font-weight:600;color:var(--m3);margin-bottom:6px;">🏝 남쪽 (서귀포)</div>
+        <div style="font-size:11px;color:var(--sub);line-height:1.6;">연돈·올레시장 접근 / 관광지 밀집<br><span style="color:var(--mute);">→ 서귀포시의 집</span></div>
+      </div>
+    </div>
+    <div style="margin-top:10px;padding:10px 14px;background:rgba(61,90,43,0.1);border:1px solid rgba(61,90,43,0.25);border-radius:2px;font-size:11px;color:var(--m3);">💡 동선 기준 최적 — 서쪽 1박 + 남쪽 1박 조합 추천</div>
+  </div>
+</div>
+
+<!-- ══════════════ PANEL: TIPS ══════════════ -->
+<div class="panel" id="p-tips">
+  <div class="tips-grid" style="border:none;border-bottom:1px solid var(--border);">
+    <div class="tip-card">
+      <div class="tip-eye">Essential · 렌트카</div>
+      <div class="tip-title">🚗 렌트카 필수 정보</div>
+      <div class="tip-row">✅ 제주는 <span class="hl">렌트카 없으면 이동이 2배</span> 힘들어</div>
+      <div class="tip-row">✅ 공항 도착 후 렌트카 카운터 or 셔틀</div>
+      <div class="tip-row">✅ 소형차 하루 3–5만원대면 충분</div>
+      <div class="tip-row">✅ 셀프주유소가 훨씬 저렴</div>
+      <div class="tip-row">✅ 주차는 대부분 무료 (해변·오름)</div>
+      <div class="tip-hl">💡 카카오T 렌트카로 가격 비교 추천</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-eye">Must Know · 오픈런</div>
+      <div class="tip-title">⚡ 오픈런 & 예약 필수</div>
+      <div class="tip-row"><span class="warn-t">⚡ 연돈</span> — 오픈 30분 전 대기 필수</div>
+      <div class="tip-row"><span class="warn-t">⚡ 용출횟집</span> — 예약 없으면 못 먹을 수도</div>
+      <div class="tip-row"><span class="warn-t">⚡ 시흥해녀의집</span> — 7시 오픈, 일찍 가야 한산</div>
+      <div class="tip-row"><span class="warn-t">📋 한라산 정상</span> — 국립공원 앱 사전예약</div>
+      <div class="tip-row"><span class="warn-t">📋 액티브파크</span> — 클라이밍 예약제</div>
+      <div class="tip-warn">⚠️ 용머리해안 — 파도 높으면 통제, 당일 확인</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-eye">Money · 결제</div>
+      <div class="tip-title">💰 현금 & 결제 팁</div>
+      <div class="tip-row">💴 <span class="hl">현금 챙기기</span> — 해녀의집·재래시장 현금 선호</div>
+      <div class="tip-row">💴 올레시장 내 소규모 가게도 현금 많음</div>
+      <div class="tip-row">💳 박물관·대형 식당은 카드 OK</div>
+      <div class="tip-row">📱 카카오페이·네이버페이 가능한 곳도 늘어남</div>
+      <div class="tip-hl">💡 현금 5–10만원 정도 준비 추천</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-eye">Weather · 5월 제주</div>
+      <div class="tip-title">🌿 5월 제주 날씨</div>
+      <div class="tip-row">🌡 평균 18–23°C / 여행 최적 시즌</div>
+      <div class="tip-row">☀️ <span class="hl">자외선 매우 강함</span> — 선크림 필수</div>
+      <div class="tip-row">🌬 바람 많음 — 가벼운 겉옷 챙기기</div>
+      <div class="tip-row">🌧 갑작스러운 소나기 가능 — 우산 or 우비</div>
+      <div class="tip-row">🏔 한라산은 기온 10°C 낮음 — 레이어링 필수</div>
+      <div class="tip-hl">💡 아침저녁 쌀쌀, 낮에는 반팔 가능</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-eye">Apps · 유용한 앱</div>
+      <div class="tip-title">📱 여행 필수 앱</div>
+      <div class="tip-row">🗺 <span class="hl">카카오맵 / 네이버지도</span> — 제주 길찾기 필수</div>
+      <div class="tip-row">🚗 <span class="hl">카카오T 렌트카</span> — 렌트카 비교</div>
+      <div class="tip-row">⛰ <span class="hl">국립공원공단 앱</span> — 한라산 예약</div>
+      <div class="tip-row">🍽 <span class="hl">네이버 예약</span> — 식당 대기 예약</div>
+      <div class="tip-row">🏖 <span class="hl">제주관광정보 앱</span> — 관광지 실시간 정보</div>
+      <div class="tip-hl">💡 용머리해안 날씨 — 안덕면 날씨 검색</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-eye">Climbing · 클라이밍 팁</div>
+      <div class="tip-title">🧗 제주 클라이밍 팁</div>
+      <div class="tip-row">🧗 <span class="hl">픽스볼더</span> — 공항 근처, 첫날 웜업 최적</div>
+      <div class="tip-row">🧗 <span class="hl">더패스</span> — 제주시청 근처, 시내 이동 편함</div>
+      <div class="tip-row">🧗 <span class="hl">액티브파크</span> — 협재 근처, 해변 세트로 추천</div>
+      <div class="tip-row">📋 모든 짐 — 공항 물품보관소 맡기고 클라이밍</div>
+      <div class="tip-row">👟 암벽화 지참 추천 (대여 가능한 곳도 있음)</div>
+      <div class="tip-hl">💡 인스타 통해 당일 영업 여부 확인 필수</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div>
+    <div class="ft">방규딘듀 × JEJU — The Green Escape</div>
+    <div class="fs">May 7–9, 2025 · Jeju Island, Korea</div>
+  </div>
+  <div class="weather-box">
+    <span style="font-size:18px;">🌿</span>
+    <div>5월 제주 18–23°C<br><span style="font-size:11px;color:var(--mute);">선크림·가벼운 겉옷 필수</span></div>
+  </div>
+</footer>
+
+<button id="st" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+// scroll top
+window.addEventListener('scroll',()=>document.getElementById('st').classList.toggle('show',scrollY>300));
+
+// panel switch
+function switchPanel(id, btn) {
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.mt').forEach(b=>b.classList.remove('on'));
+  document.getElementById('p-'+id).classList.add('on');
+  btn.classList.add('on');
+  window.scrollTo({top:document.querySelector('.main-tabs').offsetTop-1,behavior:'smooth'});
+}
+
+// accordion
+function toggle(head) {
+  const card = head.parentElement;
+  card.classList.toggle('open');
+}
+
+// category filter (places panel only)
+let curCat = 'all';
+function filterCat(c, btn) {
+  curCat = c;
+  document.querySelectorAll('.chip').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  applyFilter();
+}
+
+function applyFilter() {
+  document.querySelectorAll('#p-places .region').forEach(sec => {
+    const cards = sec.querySelectorAll('.card');
+    let vis = 0;
+    cards.forEach(card => {
+      const show = curCat === 'all' || card.dataset.cat === curCat;
+      card.classList.toggle('hidden', !show);
+      if (show) vis++;
+    });
+    sec.classList.toggle('hidden', vis === 0);
+    const cnt = sec.querySelector('[id^="c-"]');
+    if (cnt) cnt.textContent = vis ? vis+' spots' : '';
+  });
+}
+
+// init counts
+document.querySelectorAll('#p-places .region').forEach(sec => {
+  const cnt = sec.querySelector('[id^="c-"]');
+  if (cnt) cnt.textContent = sec.querySelectorAll('.card').length + ' spots';
+});
+</script>
+</body>
+</html>
